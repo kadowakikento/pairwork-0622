@@ -6,6 +6,7 @@ class BlogsController < ApplicationController
   end
 
   def show
+  @favorite = current_user.favorites.find_by(blog_id: @blog.id)
   end
 
   def new
@@ -17,7 +18,7 @@ class BlogsController < ApplicationController
 
   def create
     @blog = Blog.new(blog_params)
-
+    @blog = current_user.blogs.build(blog_params)
     respond_to do |format|
       if @blog.save
         format.html { redirect_to blog_url(@blog), notice: "Blog was successfully created." }
